@@ -1,4 +1,4 @@
-package charitee.bananasockets.io.charitee;
+package charitee.bananasockets.io.charitee.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+
+import charitee.bananasockets.io.charitee.R;
 
 
 @EActivity(R.layout.activity_main) public class Main extends Activity {
