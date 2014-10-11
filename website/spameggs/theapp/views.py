@@ -55,13 +55,14 @@ class CreateResponse(_CsrfView):
         return make_json_request(data)
 
 
-class ListRequests(_CsrfView):
+class ListResponses(_CsrfView):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        user = get_user(data['from_user']) \
-            .select_related('user_responses')
+        user = get_user(data['from_user'])
+        user_responses = UserResponse.object.filter(
+            user_request__user=user)
 
-        data = [(i.id, i.text) for i in user.user_responses]
+        data = [(i.id, i.text) for i in user_responses]
         return make_json_request(data)
