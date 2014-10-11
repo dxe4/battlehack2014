@@ -1,4 +1,4 @@
-from datetime.datetime import fromtimestamp
+from datetime import datetime
 import json
 
 from django.shortcuts import HttpResponse
@@ -6,9 +6,10 @@ from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 
 from theapp.models import UserRequest, User, UserResponse
+from theapp.payments import TokenPurchase
 
 
-def make_json_request(data):
+def make_json_response(data):
     return HttpResponse(json.dumps(data),
                         content_type="application/json")
 
@@ -29,7 +30,7 @@ class CreateRequest(_CsrfView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        expires = fromtimestamp(int(data['expires']))
+        expires = datetime.fromtimestamp(int(data['expires']))
 
         user = get_user(data['from_user'])
         user_request = UserRequest(
@@ -37,7 +38,7 @@ class CreateRequest(_CsrfView):
             expires=expires, user=user)
 
         data = {'status': 'ok', 'id': user_request.id}
-        return make_json_request(data)
+        return make_json_response(data)
 
 
 class CreateResponse(_CsrfView):
@@ -52,7 +53,7 @@ class CreateResponse(_CsrfView):
             text=data['text'], user_request=user_request, user=user)
 
         data = {'status': 'ok', 'id': user_response.id}
-        return make_json_request(data)
+        return make_json_response(data)
 
 
 class ListResponses(_CsrfView):
@@ -65,7 +66,7 @@ class ListResponses(_CsrfView):
             user_request__user=user)
 
         data = [(i.id, i.text) for i in user_responses]
-        return make_json_request(data)
+        return make_json_response(data)
 
 
 class AcceptAnswer(_CsrfView):
@@ -87,7 +88,7 @@ class AcceptAnswer(_CsrfView):
             user_response.accepted = True
 
         data = {'status': 'ok'}
-        return make_json_request(data)
+        return make_json_response(data)
 
 
 class FindNearest(_CsrfView):
@@ -99,4 +100,29 @@ class FindNearest(_CsrfView):
         result = UserRequest.objects.find_closest(city, lon, lat)
 
         data = {'status': 'ok', 'result': result}
-        return make_json_request(data)
+
+        return make_json_response(data)
+
+
+class PurchaseTokens(_CsrfView):
+    http_method_names = ['post', 'get']
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        user = get_user(data['from_user'])
+        nonce = data['nonce']
+        amount = data['amount'] 
+
+        if not user:
+            return HttpResponse(status=400)            
+        elif not nonce:
+            return TokenPurchase.generate_client_token(user)
+        else:
+            return TokenPurchase.buy(nonce, user, amount)
+
+
+
+
+
+
+
