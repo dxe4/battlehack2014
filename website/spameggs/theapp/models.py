@@ -1,12 +1,13 @@
-from uuid import uuid4
+from django.db import models
 
 
-class UserRequest(object):
+class User(models.Model):
+    email = models.CharField(max_length=110)
 
-    def __init__(self, lon, lat, message, expires, from_user):
-        self.lon = lon
-        self.lat = lat
-        self.message = message
-        self.expires = expires
-        self.from_user = from_user
-        self.uid = str(uuid4()).split('-')[0]
+
+class UserRequest(models.Model):
+    lon = models.FloatField()
+    lat = models.FloatField()
+    message = models.CharField(max_length=500)
+    expires = models.DateTimeField()
+    user = models.ForeignKey(User)
