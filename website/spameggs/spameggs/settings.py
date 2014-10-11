@@ -64,6 +64,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 ROOT_URLCONF = 'spameggs.urls'
 
 WSGI_APPLICATION = 'spameggs.wsgi.application'
@@ -123,4 +127,4 @@ LOGGING = {
     },
 }
 X_FRAME_OPTIONS = 'DENY'
-USER_MODEL_CLASS = 'spameggs.models.User'
+AUTH_USER_MODEL = 'theapp.User'

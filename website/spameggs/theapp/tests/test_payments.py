@@ -1,6 +1,6 @@
 from braintree.test.nonces import Nonces
 from django.test import TestCase, Client
-from theapp.models import User
+from theapp.models import CustomUser as User
 
 from ..payments import TokenPurchase
 

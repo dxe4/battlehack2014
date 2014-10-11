@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 from theapp.util import lat_long_distance
 
@@ -20,8 +21,7 @@ class LocationManager(models.Manager):
         return result
 
 
-class User(models.Model):
-    email = models.CharField(max_length=110)
+class User(AbstractUser):
     tokens = models.IntegerField(default=0)
 
 
