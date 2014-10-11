@@ -7,9 +7,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -49,5 +51,12 @@ import charitee.bananasockets.io.charitee.R;
 
 	@UiThread public void updateLocation(Location location) {
 		geoResult.setText(location.toString());
+	}
+
+	@ViewById protected Button btnNewRequest;
+
+	@Click
+	public void btnNewRequest(){
+		startActivity(Request_.intent(Main.this).get());
 	}
 }

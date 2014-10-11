@@ -15,4 +15,14 @@
         android:text=""
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Request"
+        android:id="@+id/btnNewRequest"
+        android:layout_below="@+id/geoResult"
+        android:layout_toRightOf="@+id/geoResult"
+        android:layout_toEndOf="@+id/geoResult"/>
+
+
 </RelativeLayout>
