@@ -1,6 +1,6 @@
 from django.db import models
 
-from theapp import lat_long_distance
+from theapp.utils import lat_long_distance
 
 
 class LocationManager(models.Manager):
