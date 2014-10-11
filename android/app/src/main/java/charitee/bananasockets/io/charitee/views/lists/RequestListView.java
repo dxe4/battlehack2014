@@ -4,24 +4,21 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.EViewGroup;
+import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.UiThread;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import charitee.bananasockets.io.charitee.R;
 import charitee.bananasockets.io.charitee.models.GeolocatedRequest;
 
 /**
  * Created by codi on 11/10/2014.
  */
-@EViewGroup(R.layout.list_request_view)
-public class RequestListView extends BaseAdapter {
+@EBean public class RequestListView extends BaseAdapter {
 	@RootContext
 	Context context;
 
