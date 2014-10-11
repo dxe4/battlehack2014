@@ -30,7 +30,7 @@ class CreateRequest(_CsrfView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        expires = datetime.fromtimestamp(int(data['expires']))
+        expires = datetime.fromtimestamp(int(data.get('expires')))
 
         user = get_user(data['from_user'])
         user_request = UserRequest(
