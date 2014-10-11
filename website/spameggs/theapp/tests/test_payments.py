@@ -16,11 +16,12 @@ class TokenPurchaseTestCase(TestCase):
         self.user.is_active = True
         self.user.save()
 
-    def _login():
+    def _login(self):
         data = {'username': 'spam@eggs.coffee', 'password': 'spam'}
         self.client.post('/login', data)
 
     def test_purchase_100(self):
+        self._login()
         data = {
             'from_user': 'spam@eggs.coffee',
             'nonce': Nonces.Transactable,
