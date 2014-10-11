@@ -24,7 +24,6 @@ class User(models.Model):
     email = models.CharField(max_length=110)
     tokens = models.IntegerField(default=0)
 
-
 class UserRequest(models.Model):
     lon = models.FloatField()
     lat = models.FloatField()

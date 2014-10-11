@@ -80,6 +80,10 @@ class AcceptAnswer(_CsrfView):
         if not user_response.request.user.id == user.id:
             return HttpResponse(status=403)
         else:
+            user.tokens -= user.response.bounty
+            user.save()
+            user_response.user.tokens += user.response.bounty
+            user_response.user.save()
             user_response.accepted = True
 
         data = {'status': 'ok'}
