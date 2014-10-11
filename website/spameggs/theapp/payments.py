@@ -1,10 +1,23 @@
 import braintree
 
-class RequestToken(object):
-	"""docstring for RequestToken"""
+braintree.Configuration.configure(braintree.Environment.Sandbox,
+                                  merchant_id="7kf5yx5drbwk7zt5",
+                                  public_key="kk4d5dczg48qhqb3",
+                                  private_key="56e20a585ec017d5bcb102dee39cb921")
+
+class TokenPurchase(object):
+	"""docstring for TokenPurchase"""
 	def __init__(self, arg):
-		super(RequestToken, self).__init__()
+		super(TokenPurchase, self).__init__()
 		self.arg = arg
+
+	@classmethod
+	def generate_client_token(user):
+		client_token = braintree.ClientToken.generate({
+		    "customer_id": user.id
+		})
+
+		return client_token
 
 
 	def buy(nonce, user):
@@ -19,6 +32,11 @@ class RequestToken(object):
     		return True
     	else:
     		return result.errors.deep_errors
+
+
+
+
+# views, move them later
 
 
 
