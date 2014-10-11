@@ -26,7 +26,7 @@ def get_user(email):
 class _CsrfView(View):
 
     @csrf_exempt
-    @method_decorator(login_required)
+    # @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(_CsrfView, self).dispatch(*args, **kwargs)
 
@@ -38,7 +38,6 @@ class LoginView(View):
         return super(LoginView, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
