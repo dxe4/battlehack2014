@@ -21,3 +21,4 @@ class UserResponse(models.Model):
     user_request = models.ForeignKey(UserRequest,
                                      related_name='responses')
     user = models.ForeignKey(User, related_name='user_responses')
+
