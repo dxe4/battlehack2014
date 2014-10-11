@@ -1,0 +1,7 @@
+Django==1.7
+argparse==1.2.1
+distribute==0.6.24
+psycopg2==2.5.4
+wsgiref==0.1.2
+braintree==3.6.0
+requests==2.4.3
