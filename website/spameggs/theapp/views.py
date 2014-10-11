@@ -4,7 +4,7 @@ import json
 from django.shortcuts import HttpResponse
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponseBadRequest
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -38,6 +38,7 @@ class LoginView(View):
         return super(LoginView, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
@@ -50,6 +51,8 @@ class LoginView(View):
                 return HttpResponseForbidden('disabled account')
         else:
             return HttpResponseForbidden('Oops you did something wrong')
+
+        return HttpResponseBadRequest()
 
 
 class CreateRequest(_CsrfView):

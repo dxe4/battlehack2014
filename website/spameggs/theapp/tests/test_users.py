@@ -10,14 +10,13 @@ class TestUsers(TestCase):
         password = 'spam'
         self.user = User.objects.create_user(
             'spam@eggs.coffee',
-            username='spam@eggs.coffee', password=password,
-            is_active=True)
+            email='spam@eggs.coffee', password=password)
+        self.user.is_active = True
         self.user.save()
 
     def test_login(self):
         client = Client()
-        response = client.post('/login', username='spam@eggs.coffee',
-                               password='spam')
+        data = {'username': 'spam@eggs.coffee', 'password': 'spam'}
+        response = client.post('/login', data=data)
 
         assert response.status_code == 200
-        self.assertIn('_auth_user_id', self.client.session)
