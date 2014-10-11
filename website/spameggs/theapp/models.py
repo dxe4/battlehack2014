@@ -14,6 +14,11 @@ class UserRequest(models.Model):
     user = models.ForeignKey(User, related_name='user_requests')
     bounty = models.IntegerField(default=0)
 
+    country = models.CharField(max_length=150)
+    city = models.CharField(max_length=150)
+    location = models.CharField(max_length=250)
+    country_code = models.CharField(max_length=3)
+
 
 class UserResponse(models.Model):
     text = models.CharField(max_length=500)
