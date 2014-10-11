@@ -15,7 +15,7 @@ def make_json_response(data):
 
 
 def get_user(email):
-    return User.objects.get_or_create(email=email)
+    return User.objects.get_or_create(email=email)[0]
 
 
 class _CsrfView(View):
