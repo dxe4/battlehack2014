@@ -36,6 +36,7 @@ class CreateRequest(_CsrfView):
         user_request = UserRequest(
             lon=data['lon'], lat=data['lat'], message=data['message'],
             expires=expires, user=user)
+        user_request.save()
 
         data = {'status': 'ok', 'id': user_request.id}
         return make_json_response(data)
@@ -51,6 +52,7 @@ class CreateResponse(_CsrfView):
         user_request = UserRequest.objects.get(pk=data['request_id'])
         user_response = UserResponse(
             text=data['text'], user_request=user_request, user=user)
+        user_response.save()
 
         data = {'status': 'ok', 'id': user_response.id}
         return make_json_response(data)
@@ -111,10 +113,10 @@ class PurchaseTokens(_CsrfView):
         data = request.POST
         user = get_user(data['from_user'])
         nonce = data['nonce']
-        amount = data['amount'] 
+        amount = data['amount']
 
         if not user:
-            return HttpResponse(status=400)            
+            return HttpResponse(status=400)
         elif not nonce:
             return TokenPurchase.generate_client_token(user)
         else:
