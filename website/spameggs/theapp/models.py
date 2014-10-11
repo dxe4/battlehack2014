@@ -3,6 +3,7 @@ from django.db import models
 
 class User(models.Model):
     email = models.CharField(max_length=110)
+    tokens = models.IntegerField(default=0)
 
 
 class UserRequest(models.Model):
@@ -19,3 +20,4 @@ class UserResponse(models.Model):
     user_requset = models.ForeignKey(UserRequest,
                                      related_name='responses')
     user = models.ForeignKey(User)
+    bounty = models.IntegerField(default=0)
