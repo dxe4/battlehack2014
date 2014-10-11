@@ -123,3 +123,4 @@ LOGGING = {
     },
 }
 X_FRAME_OPTIONS = 'DENY'
+USER_MODEL_CLASS = 'spameggs.models.User'

@@ -24,9 +24,7 @@ class TokenPurchaseTestCase(TestCase):
         user = User.objects.get(email='me@swistofon.pl')
         assert user.tokens == 100
 
-
     def test_get_client_token(self):
         response = self.client.post('/purchase_tokens', {
             'from_user': 'me@swistofon.pl'
         })
-

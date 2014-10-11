@@ -4,6 +4,11 @@ import json
 from django.shortcuts import HttpResponse
 from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseForbidden
+
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from theapp.models import UserRequest, User, UserResponse
 from theapp.payments import TokenPurchase
@@ -15,14 +20,36 @@ def make_json_response(data):
 
 
 def get_user(email):
-    return User.objects.get_or_create(email=email)[0]
+    return User.objects.get_or_create(username=email)[0]
 
 
 class _CsrfView(View):
 
     @csrf_exempt
+    @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(_CsrfView, self).dispatch(*args, **kwargs)
+
+
+class LoginView(View):
+
+    @csrf_exempt
+    def dispatch(self, *args, **kwargs):
+        return super(LoginView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return make_json_response({'status': 'ok'})
+            else:
+                return HttpResponseForbidden('disabled account')
+        else:
+            return HttpResponseForbidden('Oops you did something wrong')
 
 
 class CreateRequest(_CsrfView):
@@ -133,5 +160,5 @@ class PurchaseTokens(_CsrfView):
             client_token = TokenPurchase.generate_client_token(user)
             return HttpResponse(client_token)
         else:
-            result =  TokenPurchase.buy(nonce, user, amount)
+            result = TokenPurchase.buy(nonce, user, amount)
             return HttpResponse(result, status=200)
