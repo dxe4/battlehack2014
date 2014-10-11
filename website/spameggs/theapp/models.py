@@ -1,3 +1,12 @@
-from django.db import models
+from uuid import uuid4
 
-# Create your models here.
+
+class UserRequest(object):
+
+    def __init__(self, lon, lat, message, expires, from_user):
+        self.lon = lon
+        self.lat = lat
+        self.message = message
+        self.expires = expires
+        self.from_user = from_user
+        self.uid = str(uuid4()).split('-')[0]

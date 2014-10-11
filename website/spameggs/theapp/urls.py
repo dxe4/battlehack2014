@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
-from theapp.views import index
+from theapp.views import CreateRequest
 
 urlpatterns = patterns(
     '',
-    url(r'^$', index, name='index'),
+    url(r'^create_request$', CreateRequest.as_view(), name='create_request'),
 )
