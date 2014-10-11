@@ -119,10 +119,3 @@ class PurchaseTokens(_CsrfView):
             return TokenPurchase.generate_client_token(user)
         else:
             return TokenPurchase.buy(nonce, user, amount)
-
-
-
-
-
-
-

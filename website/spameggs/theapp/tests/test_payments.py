@@ -4,19 +4,18 @@ from theapp.models import User
 
 from ..payments import TokenPurchase
 
-class AnimalTestCase(TestCase):
+class TokenPurchaseTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
-        self.user = User(email="me@swistofon.pl")
+        self.user = User.objects.create(email="me@swistofon.pl")
 
 
     def test_purchase_100(self):
-        self.client.post('purchase_tokens', {
-        	'from_user': 'me@swistofon.pl',
-        	'nonce': Nonces.Transactable,
-        	'amount': 100
-        	})
+        response = self.client.post('/purchase_tokens', {
+                'from_user': 'me@swistofon.pl',
+                'nonce': Nonces.Transactable,
+                'amount': 100
+            })
 
-        assert self.user.tokens == 100
         
