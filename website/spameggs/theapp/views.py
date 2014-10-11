@@ -8,6 +8,15 @@ from django.views.decorators.csrf import csrf_exempt
 from theapp.models import UserRequest, User, UserResponse
 
 
+def make_json_request(data):
+    return HttpResponse(json.dumps(data),
+                        content_type="application/json")
+
+
+def get_user(email):
+    return User.objects.get_or_create(email=email)
+
+
 class _CsrfView(View):
 
     @csrf_exempt
@@ -22,15 +31,13 @@ class CreateRequest(_CsrfView):
         data = request.POST
         expires = fromtimestamp(int(data['expires']))
 
-        user = User.objects.get_or_create(email=data['from_user'])
+        user = get_user(data['from_user'])
         user_request = UserRequest(
             lon=data['lon'], lat=data['lat'], message=data['message'],
             expires=expires, user=user)
-        data = {'status': 'ok', 'id': user_request.id}
 
-        return HttpResponse(
-            json.dumps(data),
-            content_type="application/json")
+        data = {'status': 'ok', 'id': user_request.id}
+        return make_json_request(data)
 
 
 class CreateResponse(_CsrfView):
@@ -38,13 +45,19 @@ class CreateResponse(_CsrfView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        user = User.objects.get_or_create(email=data['from_user'])
+        user = get_user(data['from_user'])
 
         user_request = UserRequest.objects.get(pk=data['request_id'])
         user_response = UserResponse(
             text=data['text'], user_request=user_request, user=user)
 
         data = {'status': 'ok', 'id': user_response.id}
-        return HttpResponse(
-            json.dumps(data),
-            content_type="application/json")
+        return make_json_request(data)
+
+
+class ListRequests(_CsrfView):
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        user = get_user(data['from_user'])
