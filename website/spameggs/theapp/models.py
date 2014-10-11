@@ -4,6 +4,8 @@ from django.db import models
 class User(models.Model):
     email = models.CharField(max_length=110)
 
+    tokens = models.IntegerField(default=0)
+
 
 class UserRequest(models.Model):
     lon = models.FloatField()
@@ -11,3 +13,8 @@ class UserRequest(models.Model):
     message = models.CharField(max_length=500)
     expires = models.DateTimeField()
     user = models.ForeignKey(User)
+
+    bounty = models.IntegerField(default=0)
+
+
+
