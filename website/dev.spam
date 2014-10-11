@@ -1,1 +1,1 @@
-export DJANGO_SETTINGS_MODULE=theapp.settings
+export DJANGO_SETTINGS_MODULE=spameggs.settings
