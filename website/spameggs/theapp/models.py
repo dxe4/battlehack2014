@@ -6,11 +6,11 @@ from theapp.util import lat_long_distance
 
 class LocationManager(models.Manager):
 
-    def find_closest(self, city, lon, lat, max_distance=5):
+    def find_closest(self, lon, lat, max_distance=5):
         '''
         Not scalable probably, for now its ok
         '''
-        requests = UserRequest.objects.filter(city=city)
+        requests = UserRequest.objects.all()
 
         result = []
         for i in requests:

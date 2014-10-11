@@ -106,8 +106,8 @@ class ListRequests(_CsrfView):
 
     def get(self, request, *args, **kwargs):
         data = request.POST
-        lat, lon, city = data.get('lat'), data.get('long'), data.get('city')
-        nearby_requests = UserResponse.object.find_closest(city, lon, lat)
+        lat, lon, city = data.get('lat'), data.get('long')
+        nearby_requests = UserResponse.object.find_closest(lon, lat)
 
         return make_json_response(nearby_requests)
 
@@ -139,8 +139,8 @@ class FindNearest(_CsrfView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        city, lon, lat = data['city'], data['lon'], data['lat']
-        result = UserRequest.objects.find_closest(city, lon, lat)
+        lon, lat = data['lon'], data['lat']
+        result = UserRequest.objects.find_closest(lon, lat)
 
         data = {'status': 'ok', 'result': result}
 
