@@ -22,7 +22,7 @@ class _CsrfView(View):
 
     @csrf_exempt
     def dispatch(self, *args, **kwargs):
-        return super(CreateRequest, self).dispatch(*args, **kwargs)
+        return super(_CsrfView, self).dispatch(*args, **kwargs)
 
 
 class CreateRequest(_CsrfView):
