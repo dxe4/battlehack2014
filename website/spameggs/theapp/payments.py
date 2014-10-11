@@ -12,7 +12,7 @@ class TokenPurchase(object):
 		self.arg = arg
 
 	@classmethod
-	def generate_client_token(user):
+	def generate_client_token(cls, user):
 		client_token = braintree.ClientToken.generate({
 			"customer_id": user.id
 		})
@@ -20,14 +20,16 @@ class TokenPurchase(object):
 		return client_token
 
 	@classmethod
-	def buy(nonce, user, amount):
+	def buy(cls, nonce, user, amount):
+		amount = int(amount)
+
 		result = braintree.Transaction.sale({
 			"amount": "{}.00".format(amount/100),
 			"payment_method_nonce": nonce,
 		})
 
 		if result.is_success:
-			user.tokens += 100
+			user.tokens += amount
 			user.save()
 			return True
 		else:
