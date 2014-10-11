@@ -111,13 +111,16 @@ class PurchaseTokens(_CsrfView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
+
         user = get_user(data['from_user'])
-        nonce = data['nonce']
-        amount = data['amount']
+        nonce = data.get('nonce')
+        amount = data.get('amount')
 
         if not user:
             return HttpResponse(status=400)
         elif not nonce:
-            return TokenPurchase.generate_client_token(user)
+            client_token = TokenPurchase.generate_client_token(user)
+            return HttpResponse(client_token)
         else:
-            return TokenPurchase.buy(nonce, user, amount)
+            result =  TokenPurchase.buy(nonce, user, amount)
+            return HttpResponse(result, status=200)

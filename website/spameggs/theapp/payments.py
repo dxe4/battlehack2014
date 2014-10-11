@@ -13,9 +13,7 @@ class TokenPurchase(object):
 
 	@classmethod
 	def generate_client_token(cls, user):
-		client_token = braintree.ClientToken.generate({
-			"customer_id": user.id
-		})
+		client_token = braintree.ClientToken.generate()
 
 		return client_token
 

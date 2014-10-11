@@ -17,7 +17,16 @@ class TokenPurchaseTestCase(TestCase):
             'nonce': Nonces.Transactable,
             'amount': 100
         }
-        response = self.client.post('purchase_tokens', data)
+        response = self.client.post('/purchase_tokens', data)
 
-        assert response.status_code is not 400
-        assert self.user.tokens == 100
+        assert response.status_code == 200
+
+        user = User.objects.get(email='me@swistofon.pl')
+        assert user.tokens == 100
+
+
+    def test_get_client_token(self):
+        response = self.client.post('/purchase_tokens', {
+            'from_user': 'me@swistofon.pl'
+        })
+
