@@ -60,4 +60,8 @@ class ListRequests(_CsrfView):
 
     def post(self, request, *args, **kwargs):
         data = request.POST
-        user = get_user(data['from_user'])
+        user = get_user(data['from_user']) \
+            .select_related('user_responses')
+
+        data = [(i.id, i.text) for i in user.user_responses]
+        return make_json_request(data)

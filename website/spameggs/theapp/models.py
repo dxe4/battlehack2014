@@ -11,7 +11,7 @@ class UserRequest(models.Model):
     lat = models.FloatField()
     message = models.CharField(max_length=500)
     expires = models.DateTimeField()
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='user_requests')
     bounty = models.IntegerField(default=0)
 
 
@@ -20,4 +20,4 @@ class UserResponse(models.Model):
     votes = models.IntegerField(blank=True, null=True)
     user_request = models.ForeignKey(UserRequest,
                                      related_name='responses')
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='user_responses')
