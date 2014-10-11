@@ -71,6 +71,17 @@ class ListResponses(_CsrfView):
         return make_json_response(data)
 
 
+class ListRequests(_CsrfView):
+    http_method_names = ['post']
+
+    def get(self, request, *args, **kwargs):
+        data = request.POST
+        lat, lon, city = data.get('lat'), data.get('long'), data.get('city')
+        nearby_requests = UserResponse.object.find_closest(city, lon, lat)
+
+        return make_json_response(nearby_requests)
+
+
 class AcceptAnswer(_CsrfView):
     http_method_names = ['post']
 
