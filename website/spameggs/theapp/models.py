@@ -11,9 +11,7 @@ class UserRequest(models.Model):
     lat = models.FloatField()
     message = models.CharField(max_length=500)
     expires = models.DateTimeField()
-
     user = models.ForeignKey(User)
-
     bounty = models.IntegerField(default=0)
 
 
@@ -23,4 +21,3 @@ class UserResponse(models.Model):
     user_request = models.ForeignKey(UserRequest,
                                      related_name='responses')
     user = models.ForeignKey(User)
-    
