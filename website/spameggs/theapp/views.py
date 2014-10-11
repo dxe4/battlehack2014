@@ -66,3 +66,21 @@ class ListResponses(_CsrfView):
 
         data = [(i.id, i.text) for i in user_responses]
         return make_json_request(data)
+
+
+class AcceptAnswer(_CsrfView):
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        user = get_user(data['from_user'])
+        response_id = data['response_id']
+
+        user_response = UserResponse.object.get(pk=response_id)
+        if not user_response.request.user.id == user.id:
+            return HttpResponse(status=403)
+        else:
+            user_response.accepted = True
+
+        data = {'status': 'ok'}
+        return make_json_request(data)
