@@ -17,7 +17,7 @@ class UserRequest(models.Model):
 
 class UserResponse(models.Model):
     text = models.CharField(max_length=500)
-    votes = models.IntegerField()
+    votes = models.IntegerField(blank=True, null=True)
     user_request = models.ForeignKey(UserRequest,
                                      related_name='responses')
     user = models.ForeignKey(User)
