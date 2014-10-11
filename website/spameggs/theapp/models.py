@@ -11,3 +11,11 @@ class UserRequest(models.Model):
     message = models.CharField(max_length=500)
     expires = models.DateTimeField()
     user = models.ForeignKey(User)
+
+
+class UserResponse(models.Model):
+    text = models.CharField(max_length=500)
+    votes = models.IntegerField()
+    user_requset = models.ForeignKey(UserRequest,
+                                     related_name='responses')
+    user = models.ForeignKey(User)
