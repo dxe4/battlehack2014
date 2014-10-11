@@ -6,6 +6,7 @@ from django.views.generic import View
 from django.views.decorators.csrf import csrf_exempt
 
 from theapp.models import UserRequest, User, UserResponse
+from theapp.util import lat_long_distance
 
 
 def make_json_request(data):
@@ -81,6 +82,16 @@ class AcceptAnswer(_CsrfView):
             return HttpResponse(status=403)
         else:
             user_response.accepted = True
+
+        data = {'status': 'ok'}
+        return make_json_request(data)
+
+
+class FindNearest(_CsrfView):
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        user = get_user(data['from_user'])
 
         data = {'status': 'ok'}
         return make_json_request(data)
