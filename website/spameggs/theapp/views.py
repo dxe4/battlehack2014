@@ -8,12 +8,15 @@ from django.views.decorators.csrf import csrf_exempt
 from theapp.models import UserRequest, User
 
 
-class CreateRequest(View):
-    http_method_names = ['post']
+class _CsrfView(View):
 
     @csrf_exempt
     def dispatch(self, *args, **kwargs):
         return super(CreateRequest, self).dispatch(*args, **kwargs)
+
+
+class CreateRequest(_CsrfView):
+    http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
         data = request.POST
