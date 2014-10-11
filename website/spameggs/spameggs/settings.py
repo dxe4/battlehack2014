@@ -104,3 +104,22 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 foo = {}
+
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        }
+    },
+}
+X_FRAME_OPTIONS = 'DENY'
