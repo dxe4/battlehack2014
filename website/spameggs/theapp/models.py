@@ -48,3 +48,5 @@ class UserResponse(models.Model):
                                      related_name='responses')
     user = models.ForeignKey(User, related_name='user_responses')
     accepted = models.BooleanField(default=False)
+
+    objects = LocationManager()
