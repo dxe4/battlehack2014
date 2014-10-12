@@ -88,9 +88,9 @@ class CreateResponse(_CsrfView):
 
 
 class ListResponses(_CsrfView):
-    http_method_names = ['post']
+    http_method_names = ['get']
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         data = request.POST
         user = get_user(data['from_user'])
         user_responses = UserResponse.object.filter(
@@ -101,11 +101,11 @@ class ListResponses(_CsrfView):
 
 
 class ListRequests(_CsrfView):
-    http_method_names = ['post']
+    http_method_names = ['get']
 
     def get(self, request, *args, **kwargs):
         data = request.POST
-        lat, lon = data.get('lat'), data.get('long')
+        lat, lon = data.get('lat'), data.get('lon')
         nearby_requests = UserResponse.object.find_closest(lon, lat)
 
         return make_json_response(nearby_requests)
