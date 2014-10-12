@@ -106,7 +106,7 @@ class ListRequests(_CsrfView):
     def get(self, request, *args, **kwargs):
         data = request.POST
         lat, lon = data.get('lat'), data.get('lon')
-        nearby_requests = UserResponse.object.find_closest(lon, lat)
+        nearby_requests = UserResponse.objects.find_closest(lon, lat)
 
         return make_json_response(nearby_requests)
 
