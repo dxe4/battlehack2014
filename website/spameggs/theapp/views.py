@@ -93,7 +93,7 @@ class ListResponses(_CsrfView):
     def get(self, request, *args, **kwargs):
         data = request.POST
         user = get_user(data['from_user'])
-        user_responses = UserResponse.object.filter(
+        user_responses = UserResponse.objects.filter(
             user_request__user=user)
 
         data = [(i.id, i.text) for i in user_responses]
